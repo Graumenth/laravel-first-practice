@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Country;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -121,6 +122,9 @@ class Example extends Controller
     }
 
     public function usercountry(){
-
+        $country = Country::find(2);
+        foreach ($country->posts as $post){
+            return $post->title;
+        }
     }
 }
