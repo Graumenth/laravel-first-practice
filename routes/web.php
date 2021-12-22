@@ -39,8 +39,12 @@ Route::get('/user/{id}/role', 'Example@userrole');
 Route::get('/user/pivot', 'Example@userpivot');
 Route::get('/user/country', 'Example@usercountry');
 //Polymorphic Relations
-Route::get('/user/photos', 'Example@userphotos');
-Route::get('/post/photos', 'Example@postphotos');
+Route::get('/user/{id}/photos', 'Example@userphotos');
+Route::get('/post/{id}/photos', 'Example@postphotos');
+Route::get('/photo/{id}/post','Example@phototopost');
+//Polymorphic Many to Many
+Route::get('/post/tag','Example@posttags');
+Route::get('/tag/post','Example@tagspost');
 
 
 //
