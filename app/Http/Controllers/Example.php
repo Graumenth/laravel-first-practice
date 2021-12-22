@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Country;
+use App\Photo;
+use App\Post;
+use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Example_model;
 use App\Role;
 
 class Example extends Controller
@@ -17,7 +19,7 @@ class Example extends Controller
     }
 
     public function read(){
-        $posts = Example_model::all();
+        $posts = Post::all();
         foreach($posts as $post){
             return $post->title;
         }
@@ -28,23 +30,23 @@ class Example extends Controller
     }
 
     public function find(){
-        $post = Example_model::find(2);
+        $post = Post::find(2);
         return $post->title;
     }
 
     public function findwhere(){
-        $posts = Example_model::where('id', 2)->orderBy('id', "DESC")->take(2)->get();
+        $posts = Post::where('id', 2)->orderBy('id', "DESC")->take(2)->get();
         return $posts;
     }
 
     public function findmore(){
-        $posts = Example_model::findOrFail(3);
-        //$posts = Example_model::where('users_count', '<', 50)->firstOrFail();
+        $posts = Post::findOrFail(3);
+        //$posts = Post::where('users_count', '<', 50)->firstOrFail();
         return $posts;
     }
 
     public function basicinsert(){
-        $post = new Example_model;
+        $post = new Post;
 
         $post->title = 'new Eloquent title';
         $post->content = 'Le Eloquent';
@@ -53,7 +55,7 @@ class Example extends Controller
     }
 
     public function basicupdate(){
-        $post = Example_model::find(4);
+        $post = Post::find(4);
 
         $post->title = 'Updated Eloquent title';
         $post->content = 'Le Eloquent';
@@ -62,33 +64,33 @@ class Example extends Controller
     }
 
     public function create(){
-        Example_model::create(['title'=>'Create method', 'content'=>'I\'m learning Laravel']);
+        Post::create(['title'=>'Create method', 'content'=>'I\'m learning Laravel']);
     }
 
     public function update(){
-        Example_model::where('id', 2)->update(['title' => 'new PHP title', 'content' => 'Edwin is a noob']);
+        Post::where('id', 2)->update(['title' => 'new PHP title', 'content' => 'Edwin is a noob']);
     }
 
     public function delete(){
-        //can = Example_model::find(2)->delete();
+        //can = Post::find(2)->delete();
 
-        return Example_model::destroy([3,4,5]);
+        return Post::destroy([3,4,5]);
     }
 
     public function softdelete(){
-        return Example_model::find(7)->delete();
+        return Post::find(7)->delete();
     }
 
     public function readsoftdelete(){
-        return Example_model::onlyTrashed()->where('id', 3)->get();
+        return Post::onlyTrashed()->where('id', 3)->get();
     }
 
     public function restore(){
-        return Example_model::onlyTrashed()->restore(); //where alır.
+        return Post::onlyTrashed()->restore(); //where alır.
     }
 
     public function forcedelete(){
-        return Example_model::onlyTrashed()->forceDelete();
+        return Post::onlyTrashed()->forceDelete();
     }
 
     public function userpost($id){
@@ -96,7 +98,7 @@ class Example extends Controller
     }
 
     public function postuser($id){
-        return Example_model::find($id)->user->name;
+        return Post::find($id)->user->name;
     }
 
     public function posts($id){
@@ -128,17 +130,36 @@ class Example extends Controller
         }
     }
 
-    public function userphotos(){
-        $user = User::find(1);
+    public function userphotos($id){
+        $user = User::find($id);
         foreach ($user->photos as $photo){
-            return $photo->path;
+            return $photo->name;
         }
     }
 
-    public function postphotos(){
-        $post = Example_model::find(1);
+    public function postphotos($id){
+        $post = Post::find($id);
         foreach ($post->photos as $photo){
-            return $photo->path;
+            echo $photo->name;
+        }
+    }
+
+    public function phototopost($id){
+        $photo = Photo::findOrFail($id);
+        return $photo->imageable;
+    }
+
+    public function posttags(){
+        $post = Post::find(2);
+        foreach ($post->tags as $tag){
+            return $tag->name;
+        }
+    }
+
+    public function tagspost(){
+        $tag = Tag::find(2);
+        foreach ($tag->posts as $post){
+            return $post->title;
         }
     }
 }
