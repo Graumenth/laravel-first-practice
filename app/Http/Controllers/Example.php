@@ -127,4 +127,18 @@ class Example extends Controller
             return $post->title;
         }
     }
+
+    public function userphotos(){
+        $user = User::find(1);
+        foreach ($user->photos as $photo){
+            return $photo->path;
+        }
+    }
+
+    public function postphotos(){
+        $post = Example_model::find(1);
+        foreach ($post->photos as $photo){
+            return $photo->path;
+        }
+    }
 }

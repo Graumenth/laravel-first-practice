@@ -38,6 +38,10 @@ Route::get('/posts/{id}', 'Example@posts');
 Route::get('/user/{id}/role', 'Example@userrole');
 Route::get('/user/pivot', 'Example@userpivot');
 Route::get('/user/country', 'Example@usercountry');
+//Polymorphic Relations
+Route::get('/user/photos', 'Example@userphotos');
+Route::get('/post/photos', 'Example@postphotos');
+
 
 //
 //Route::get('/read', function (){
